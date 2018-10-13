@@ -1,0 +1,11 @@
+
+form{
+    margin: 0 auto;
+    width: 300px;
+}
+form .form-group input:focus{
+    outline: none;
+}
+button:focus{
+    outline: none;
+}
