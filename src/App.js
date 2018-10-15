@@ -7,9 +7,11 @@ class App extends Component {
     super();
     this.state = {
       tasks: null,
-      loading: true
+      loading: true,
+      taskTitle: ""
     };
   }
+
   componentDidMount() {
     this.getTasks();
   }
@@ -27,6 +29,12 @@ class App extends Component {
         console.log(error);
       });
   };
+
+  onTodoChange(value) {
+    this.setState({
+      taskTitle: value
+    });
+  }
 
   renderList = () => {
     if (!this.state.loading) {
@@ -46,7 +54,12 @@ class App extends Component {
       <div className="App">
         <form>
           <div className="form-group">
-            <input type="text" className="form-control" placeholder="task" />
+            <input
+              type="text"
+              className="form-control"
+              placeholder="task"
+              onChange={e => this.onTodoChange(e.target.value)}
+            />
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
