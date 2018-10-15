@@ -41,7 +41,19 @@ class App extends Component {
       return (
         <div className="list">
           {this.state.tasks.map((task, index) => {
-            return <p key={index}>{task.title}</p>;
+            return (
+              <div className="list-task">
+                <p
+                  className="list-group-item list-group-item-action"
+                  key={index}
+                >
+                  {task.title}
+                </p>
+                <button type="button" className="btn btn-danger">
+                  Delete
+                </button>
+              </div>
+            );
           })}
         </div>
       );
@@ -53,17 +65,17 @@ class App extends Component {
     return (
       <div className="App">
         <form>
-          <div className="form-group">
+          <div className="app-form">
             <input
               type="text"
               className="form-control"
               placeholder="task"
               onChange={e => this.onTodoChange(e.target.value)}
             />
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
           </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
         </form>
         {this.renderList()}
       </div>
