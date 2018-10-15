@@ -1,7 +1,8 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
+const data = require("./data.json");
 
 app.use(cors());
 
@@ -9,8 +10,7 @@ app.use(cors());
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // create a GET route
-let tasks =[{ title: 'task1' },{ title: 'task2' },{ title: 'task3' },{ title: 'task4'}];
-app.get('/tasks', (req, res) => {
-  res.send(tasks);
-});
 
+app.get("/tasks", (req, res) => {
+  res.send(data);
+});

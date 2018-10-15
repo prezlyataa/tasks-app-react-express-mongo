@@ -1,42 +1,44 @@
-import React, { Component } from 'react';
-import './App.scss';
-import axios from 'axios';
+import React, { Component } from "react";
+import "./App.scss";
+import axios from "axios";
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       tasks: null,
       loading: true
-    }
+    };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.getTasks();
   }
 
   getTasks = () => {
-    axios.get('http://localhost:5000/tasks')
+    axios
+      .get("http://localhost:5000/tasks")
       .then(response => {
         this.setState({
-          tasks:response.data,
+          tasks: response.data,
           loading: false
-        })
+        });
       })
       .catch(error => {
         console.log(error);
-    });
-  }
+      });
+  };
 
   renderList = () => {
-    if(!this.state.loading) {
-      return( 
-     <div className="list">
-        {this.state.tasks.map((task,index) => {
-          return (<p key={index}>{task.title}</p>)
-        })} 
-     </div>
-    )}
-  }
+    if (!this.state.loading) {
+      return (
+        <div className="list">
+          {this.state.tasks.map((task, index) => {
+            return <p key={index}>{task.title}</p>;
+          })}
+        </div>
+      );
+    }
+  };
 
   render() {
     console.log(this.state);
@@ -44,9 +46,11 @@ class App extends Component {
       <div className="App">
         <form>
           <div className="form-group">
-            <input type="text" className="form-control"  placeholder="task"/>
+            <input type="text" className="form-control" placeholder="task" />
           </div>
-          <button type="submit" className="btn btn-primary">Submit</button>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
         </form>
         {this.renderList()}
       </div>
