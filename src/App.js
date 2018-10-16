@@ -25,9 +25,40 @@ class App extends Component {
           loading: false
         });
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
+  };
+
+  addTask = () => {
+    const { taskTitle } = this.state;
+
+    if(taskTitle.length) {
+        axios.post("http://localhost:5000/tasks", {title: taskTitle})
+            .then(res => {
+                console.log(res);
+                this.getTasks();
+                this.setState({
+                    taskTitle: ''
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+  };
+
+  deleteTask = (e) => {
+    let id = e.target.parentNode.getAttribute('data-id');
+
+    axios.delete(`http://localhost:5000/tasks:${id}`)
+        .then(res => {
+            console.log(res);
+            this.getTasks();
+        })
+        .catch(err => {
+            console.log(err);
+        });
   };
 
   onTodoChange(value) {
@@ -42,14 +73,14 @@ class App extends Component {
         <div className="list">
           {this.state.tasks.map((task, index) => {
             return (
-              <div className="list-task">
+              <div className="list-task" key={index} data-id={task._id}>
                 <p
                   className="list-group-item list-group-item-action"
                   key={index}
                 >
                   {task.title}
                 </p>
-                <button type="button" className="btn btn-danger">
+                <button type="button" className="btn btn-danger" onClick={e => this.deleteTask(e)}>
                   Delete
                 </button>
               </div>
@@ -64,20 +95,19 @@ class App extends Component {
     console.log(this.state);
     return (
       <div className="App">
-        <form>
-          <div className="app-form">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="task"
-              onChange={e => this.onTodoChange(e.target.value)}
-            />
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </div>
-        </form>
-        {this.renderList()}
+        <div className="app-form">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="task"
+            onChange={e => this.onTodoChange(e.target.value)}
+            value={this.state.taskTitle}
+          />
+          <button type="submit" className="btn btn-primary" onClick={this.addTask}>
+            Submit
+          </button>
+        </div>
+          {this.renderList()}
       </div>
     );
   }
