@@ -36,7 +36,14 @@ app.post('/tasks', (req, res, next) => {
     });
 });
 
-app.delete('/tasks:id', function(req, res, next) {
+app.put('/tasks:id', (req, res, next) => {
+    Task.findByIdAndUpdate(req.params.id.substr(1), req.body, (err, post) => {
+        if (err) return next(err);
+        res.json(post);
+    });
+});
+
+app.delete('/tasks:id', (req, res, next) => {
     Task.findByIdAndRemove(req.params.id.substr(1), req.body, (err, post) => {
         if (err) return next(err);
         res.json(post)

@@ -15,6 +15,7 @@
   flex-direction: column;
   justify-content: center;
 }
+
 .list-task {
   padding-top: 10px;
   display: flex;
@@ -23,5 +24,42 @@
   p {
     width: 400px;
     margin-right: 10px;
+  }
+}
+
+.control-btns {
+  display: flex;
+  align-items: center;
+
+  button {
+    height: 100%;
+  }
+
+  .edit-btn {
+    margin-right: 5px;
+    color: white;
+
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.edit-field {
+  width: 400px;
+  padding: .75rem 1.25rem;
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+  margin-right: 10px;
+}
+
+.dialog-content {
+  padding: 20px;
+  width: 500px;
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
