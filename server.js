@@ -13,12 +13,17 @@ const SERVER = '127.0.0.1:27017';
 const DB = 'tasks-app';
 const MONGODB_URI = `mongodb://${SERVER}/${DB}`;
 const connection = mongoose.connection;
+const option = {
+    socketTimeoutMS: 30000,
+    keepAlive: true,
+    reconnectTries: 30000
+};
 
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, option);
 
 connection.on('connected', () => console.log('Connected to database'));
-connection.on('error', () => console.log('Connection failed with - ', err));
+connection.on('error', err => console.log('Connection failed with - ', err));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 

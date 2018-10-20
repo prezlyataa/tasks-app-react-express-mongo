@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.scss";
 import axios from "axios";
 import Modal from "react-responsive-modal";
+const dateFormat = require('dateformat');
 
 class App extends Component {
   constructor() {
@@ -9,11 +10,9 @@ class App extends Component {
     this.state = {
       tasks: null,
       loading: true,
-      isEdit: false,
       taskTitle: "",
       currentTask: null,
       open: false,
-      newTaskTitle: ""
     };
   }
 
@@ -45,9 +44,8 @@ class App extends Component {
 
   addTask = () => {
     const { taskTitle } = this.state;
-
-    if(taskTitle.length) {
-        axios.post("http://localhost:5000/tasks", {title: taskTitle})
+      if(taskTitle.length) {
+        axios.post("http://localhost:5000/tasks", {title: taskTitle, date: new Date(), status: false})
             .then(res => {
                 console.log(res);
                 this.getTasks();
@@ -58,7 +56,7 @@ class App extends Component {
             .catch(err => {
                 console.log(err);
             });
-    }
+        }
   };
 
   deleteTask = (e) => {
@@ -72,14 +70,6 @@ class App extends Component {
         .catch(err => {
             console.log(err);
         });
-  };
-
-  updateTask = (newTitle, id) => {
-      axios.put(`http://localhost:5000/tasks:${"5bc5fb06642e7339649b47e2"}`, {title: newTitle})
-          .then(() => {
-              this.getTasks();
-              this.onCloseModal();
-          });
   };
 
     detailTask = (e) => {
@@ -100,11 +90,13 @@ class App extends Component {
     });
   }
 
-  onTitleChange(value) {
-      this.setState({
-          newTaskTitle: value
-      });
-  }
+    handleChangeCheckbox = ( e) => {
+        let id = e.target.parentNode.getAttribute('data-id');
+        axios.put(`http://localhost:5000/tasks:${id}`, {status: e.target.checked})
+            .then(() => {
+                this.getTasks();
+            });
+    };
 
   renderList = () => {
     const { loading } = this.state;
@@ -114,6 +106,7 @@ class App extends Component {
           {this.state.tasks.map((task, index) => {
             return (
               <div className="list-task" key={index} data-id={task._id}>
+                  <input type="checkbox" id={task._id} className='list-task__checkbox' checked={task.status} onChange={e => this.handleChangeCheckbox(e)}/>
                 <p
                     className="list-group-item list-group-item-action"
                     key={index}
@@ -137,39 +130,23 @@ class App extends Component {
   renderModal = () => {
       const { open } = this.state;
       if(this.state.currentTask) {
+          const date = dateFormat(this.state.currentTask.date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
           return (
               <Modal open={open} onClose={this.onCloseModal} center>
                   <div className='dialog-content'>
                       <div className='dialog-content__id'>
                           <p><b>Id:</b> {this.state.currentTask._id}</p>
                       </div>
-                      {this.renderTitle()}
+                      <div className='dialog-content__title'>
+                          <p><b>Title:</b> {this.state.currentTask.title}</p>
+                      </div>                      <div>
+                          <p><b>Date:</b> {date}</p>
+                      </div>
+                      <div>
+                          <p><b>Status:</b> {this.state.currentTask.status ? 'Done' : 'Not done'}</p>
+                      </div>
                   </div>
               </Modal>
-          )
-      }
-  };
-
-  isEdit = () => {
-      this.setState({
-          isEdit: true
-      })
-  };
-
-  renderTitle = () => {
-      if(!this.state.isEdit) {
-          return (
-              <div className='dialog-content__title'>
-                  <p><b>Title:</b> {this.state.currentTask.title}</p>
-                  <button className="btn btn-warning" onClick={this.isEdit}>Edit</button>
-              </div>
-          );
-      } else {
-          return (
-              <div className='dialog-content__title'>
-                  <p><b>Title:</b> <input type="text" onChange={e => this.onTitleChange(e.target.value)}/></p>
-                  <button className="btn btn-primary" onClick={this.updateTask(this.state.newTaskTitle, this.state.currentTask._id)}>Save</button>
-              </div>
           )
       }
   };
