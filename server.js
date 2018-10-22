@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const Task = require("./models/task");
 const MongoClient = require('mongodb').MongoClient;
+const path = require('path');
 const app = express();
 
 app.use(bodyParser.json(), cors());
@@ -39,6 +40,12 @@ connection.on('connected', () => console.log('Connected to database'));
 connection.on('error', err => console.log('Connection failed with - ', err));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+// app.use(express.static(path.resolve(__dirname, 'build')));
+//
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+// });
 
 app.get('/tasks', (req, res, next) => {
     Task.find((err, tasks) => {
