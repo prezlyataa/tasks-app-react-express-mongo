@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Task = require("./models/task");
+const User = require("./models/user");
 const MongoClient = require("mongodb").MongoClient;
 const path = require("path");
 const app = express();
@@ -30,7 +31,8 @@ MongoClient.connect(
       console.log("Error occurred while connecting to MongoDB Atlas...", err);
     }
     console.log("Connected to Mongodb ATLAS");
-    const collection = client.db("tasks-app").collection("tasks");
+    const collection_tasks = client.db("tasks-app").collection("tasks");
+    const collection_users = client.db("tasks-app").collection("users");
     // perform actions on the collection object
     client.close();
   }
