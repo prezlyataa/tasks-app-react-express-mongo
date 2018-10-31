@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, '/build')));
 //     res.sendFile(path.resolve(__dirname, 'build/index.js'));
 // });
 
-app.get('/main', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/build/index.html'));
 });
 

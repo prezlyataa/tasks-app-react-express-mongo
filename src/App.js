@@ -9,7 +9,7 @@ class App extends Component {
       <Router>
         <div>
           <Route path="/login" component={LoginPage} />
-          <Route path="/main" component={TasksPage} />
+          <Route path="/" component={TasksPage} />
         </div>
       </Router>
     );
