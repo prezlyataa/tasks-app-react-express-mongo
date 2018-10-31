@@ -49,11 +49,15 @@ connection.on("error", err => console.log("Connection failed with - ", err));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-// app.use(express.static(path.resolve(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '/build')));
 //
 // app.get('*', (req, res) => {
 //     res.sendFile(path.resolve(__dirname, 'build/index.js'));
 // });
+
+app.get('/main', (req, res) => {
+  res.sendFile(path.join(__dirname+'/build/index.html'));
+});
 
 app.get("/tasks", (req, res, next) => {
   Task.find((err, tasks) => {

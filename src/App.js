@@ -4,16 +4,12 @@ import { LoginPage } from "./components/login-page";
 import { TasksPage } from "./components/tasks-page";
 
 class App extends Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <Router>
         <div>
           <Route path="/login" component={LoginPage} />
-          <Route path="/tasks" component={TasksPage} />
+          <Route path="/main" component={TasksPage} />
         </div>
       </Router>
     );
