@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import "./tasks-page.component.scss";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-responsive-modal";
+import "./tasks-page.component.scss";
+
 const dateFormat = require("dateformat");
 
 export class TasksPage extends Component {
@@ -191,6 +193,9 @@ export class TasksPage extends Component {
     console.log(this.state);
     return (
       <div className="App">
+        <div className="login-btn">
+          <Link to='/login'>Login</Link>
+        </div>
         <div className="app-form">
           <input
             type="text"
