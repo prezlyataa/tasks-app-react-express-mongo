@@ -11,13 +11,15 @@ const app = express();
 app.use(bodyParser.json(), cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const SERVER = '127.0.0.1:27017';
 const DB = "tasks-app";
-const MONGO_ATLAS = `mongodb://${"prezlyata"}:${"byra1212*"}@cluster0-shard-00-00-dbi6l.mongodb.net:27017,cluster0-shard-00-01-dbi6l.mongodb.net:27017,cluster0-shard-00-02-dbi6l.mongodb.net:27017/${DB}?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`;
+const MONGO_ATLAS = `mongodb://prezlyata:byra1212*@cluster0-shard-00-00-dbi6l.mongodb.net:27017,cluster0-shard-00-01-dbi6l.mongodb.net:27017,cluster0-shard-00-02-dbi6l.mongodb.net:27017/${DB}?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`;
+const mLab = 'mongodb://yprezlyata:byra1212@ds157204.mlab.com:57204/tasks-app';
+const Mongo_Shall = `mongodb://${SERVER}/${DB}`;
 const port = process.env.PORT || 5000;
 
-// const SERVER = '127.0.0.1:27017';
-// const MONGODB_URI = `mongodb://${SERVER}/${DB}`;
-const MONGODB_URI = `${MONGO_ATLAS}`;
+const MONGODB_URI = `${mLab}`;
+
 const connection = mongoose.connection;
 const option = {
   socketTimeoutMS: 30000,
@@ -26,17 +28,18 @@ const option = {
 };
 
 MongoClient.connect(
-  MONGO_ATLAS,
+  MONGODB_URI,
   (err, client) => {
     if (err) {
-      console.log("Error occurred while connecting to MongoDB Atlas...", err);
+      console.log("Error occurred while connecting to MongoDB...", err);
     }
-    console.log("Connected to Mongodb ATLAS");
+    console.log("Connected to Mongodb");
     const collection_tasks = client.db("tasks-app").collection("tasks");
-    const collection_users = client.db("tasks-app").collection("users");
+    //const collection_users = client.db("tasks-app").collection("users");
     // perform actions on the collection object
     client.close();
-  }
+  },
+  { useNewUrlParser: true }
 );
 
 mongoose.Promise = Promise;
