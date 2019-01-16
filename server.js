@@ -18,7 +18,7 @@ const mLab = 'mongodb://yprezlyata:byra1212@ds157204.mlab.com:57204/tasks-app';
 const Mongo_Shall = `mongodb://${SERVER}/${DB}`;
 const port = process.env.PORT || 5000;
 
-const MONGODB_URI = `${mLab}`;
+const MONGODB_URI = `${MONGO_ATLAS}`;
 
 const connection = mongoose.connection;
 const option = {
