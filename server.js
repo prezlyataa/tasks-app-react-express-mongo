@@ -38,9 +38,8 @@ MongoClient.connect(
     //const collection_users = client.db("tasks-app").collection("users");
     // perform actions on the collection object
     client.close();
-  },
-  { useNewUrlParser: true }
-);
+  }
+  );
 
 mongoose.Promise = Promise;
 mongoose.connect(
