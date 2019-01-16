@@ -28,7 +28,7 @@ const option = {
 };
 
 MongoClient.connect(
-  MONGODB_URI,
+  process.env.MONGODB_URI || MONGODB_URI,
   (err, client) => {
     if (err) {
       console.log("Error occurred while connecting to MongoDB...", err);
