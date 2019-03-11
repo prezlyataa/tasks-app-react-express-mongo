@@ -32,7 +32,7 @@ export class TasksPage extends Component {
 
   getTasks = () => {
     axios
-      .get("http://localhost:5000/tasks")
+      .get("/tasks")
       .then(response => {
         this.setState({
           tasks: response.data,
@@ -48,7 +48,7 @@ export class TasksPage extends Component {
     const { taskTitle } = this.state;
     if (taskTitle.length) {
       axios
-        .post("http://localhost:5000/tasks", {
+        .post("/tasks", {
           title: taskTitle,
           date: new Date(),
           status: false
@@ -70,7 +70,7 @@ export class TasksPage extends Component {
     let id = e.target.parentNode.parentNode.getAttribute("data-id");
 
     axios
-      .delete(`http://localhost:5000/tasks:${id}`)
+      .delete(`/tasks:${id}`)
       .then(res => {
         console.log(res);
         this.getTasks();
@@ -101,7 +101,7 @@ export class TasksPage extends Component {
   handleChangeCheckbox = e => {
     let id = e.target.parentNode.getAttribute("data-id");
     axios
-      .put(`http://localhost:5000/tasks:${id}`, { status: e.target.checked })
+      .put(`/tasks:${id}`, { status: e.target.checked })
       .then(() => {
         this.getTasks();
       });
